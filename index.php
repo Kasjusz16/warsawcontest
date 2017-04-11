@@ -18,11 +18,12 @@
                     $name = htmlentities($_POST['name']);
                     $surname = htmlentities($_POST['surname']);
                     $email = htmlentities($_POST['email']);
+                    $pref = htmlentities($_POST['pref']);
                     $phoneNumber = htmlentities($_POST['phoneNumber']);
                     $address = htmlentities($_POST['address']);
                     $firstAnswer = htmlentities($_POST['select2']);
                     $secondAnswer = htmlentities($_POST['select3']);
-
+                    
 
                     $check = new WSValidate();
                     //name val
@@ -56,8 +57,9 @@
                     $check->emptyField($email, 'E-mail');
                     
                     //phone val
-                    $check->emptyField($phoneNumber, 'Phone number');
-                    $check->maxCharsAmount($phoneNumber, 'Phone number', 16);
+                    $phone = $pref . $phoneNumber;
+                    $check->emptyField($phone, 'Phone number');
+                    $check->maxCharsAmount($phone, 'Phone number', 12);
                     
                     //adress                  
                     $check->emptyField($address, 'Address');
@@ -79,15 +81,15 @@
                     {
                         $date = date('Y-m-d H:i:s');
                         $zapytanie="INSERT INTO `formularz`(`id_form`, `name`, "
-                                . "`surname`, `birth_date`, `mail`, `phone`, "
+                                . "`surname`, `birth_date`, `sex`, `mail`, `phone`, "
                                 . "`address`, `answer1`, `answer2`, `register_date`) "
-                                . "VALUES (NULL, '$name', '$surname', '$bday', '$email', '$phoneNumber', "
+                                . "VALUES (NULL, '$name', '$surname', '$bday', '$sex', '$email', '$phone', "
                                 . "'$address', '$firstAnswer', '$secondAnswer', '$date')";
                         
                         $contestants = new DbConnect();
                         $wynik =$contestants->db->query($zapytanie);
                         
-                        $message = "Name: $name <br>Surname: $surname<br>Birthday: $bday<br>Sex: $sex<br>Phone number: $phoneNumber<br>Address: $address<br>First question: How many people lives in Warsaw?<br>Your answear: $firstAnswer <br>correct answear was: 1,748,916.<br>Second question: How many districts Warsaw has?<br>Your answer: $secondAnswer <br> Correct answear was: 18.<br>Agreement accepted, e-mail generation date: $date";
+                        $message = "Name: $name <br>Surname: $surname<br>Birthday: $bday<br>Sex: $sex<br>Phone number: $phone<br>Address: $address<br>First question: How many people lives in Warsaw?<br>Your answear: $firstAnswer <br>correct answear was: 1,748,916.<br>Second question: How many districts Warsaw has?<br>Your answer: $secondAnswer <br> Correct answear was: 18.<br>Agreement accepted, e-mail generation date: $date";
                         $sendMail = new sendMail(E_MAIL_ADMIN);
                         $sendMail->send($email, 'Thank You for registration in contest About Warsaw!', $message);  
                     }
@@ -103,8 +105,8 @@
    <img src="syrenka.jpg" class="syrenka" align="right">
    <p>Contest about Warsaw</p>
     <form method="post">
-     <div class="form-group has-success">
-      <label class="control-label requiredField form-control-success" for="name">
+     <div class="form-group">
+      <label class="control-label requiredField" for="name">
        Name
        <span class="asteriskField">
         *
@@ -195,14 +197,29 @@
       </label>
       <input class="form-control" id="email" name="email" type="text"/>
      </div>
-     <div class="form-group">
+     <div class="form">
       <label class="control-label requiredField" for="phoneNumber">
-       Phone number
+          Phone Number
        <span class="asteriskField">
         *
        </span>
       </label>
-         <input class="form-control" id="phoneNumber" name="phoneNumber" type="text" value="+">
+         <div class="form-inline">
+     <select class="select form-control" id="pref" name="pref" >
+        <option value="+49">
+       +49
+       </option>
+       <option value="+48">
+        +48
+       </option>
+       <option value="+76">
+        +76
+       </option>
+         </select>
+         </div>
+        <div class="form-inline">
+       <input class="form-control" id="phoneNumber" name="phoneNumber" type="text"  />
+       </div>
      </div>
      <div class="form-group">
       <label class="control-label requiredField" for="address">
@@ -224,13 +241,13 @@
         <option value="empty">
             Choose answer
         </option>
-        <option value="931,321 tys.">
+        <option value="931,321">
         931,321
        </option>
-       <option value="1,748,916 tys.">
+       <option value="1,748,916">
         1,748,916
        </option>
-       <option value="2,432,098 tys.">
+       <option value="2,432,098">
         2,432,098
        </option>
       </select>
@@ -297,8 +314,8 @@ The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line
                 <button class="btn btn-default" id="back">Back</button>
             </div>
         </div>
-         <footer class="footer">
-            <div class="container">
+         <footer>
+            <div class="footer">
                 <a href="#top">/Kontakt</a><a href="#top">Regulamin</a>
                 <p>&copy; 2017</p>
                 
