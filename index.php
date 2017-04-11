@@ -197,29 +197,31 @@
       </label>
       <input class="form-control" id="email" name="email" type="text"/>
      </div>
-     <div class="form">
+     <div class="form-group">
       <label class="control-label requiredField" for="phoneNumber">
           Phone Number
        <span class="asteriskField">
         *
        </span>
       </label>
-         <div class="form-inline">
-     <select class="select form-control" id="pref" name="pref" >
-        <option value="+49">
+         <div  style="float: left; ">
+      <select class="select form-control" id="select3" name="select3" maxlength="3">
+   
+        <option value="3">
+        +47
+       </option>
+       <option value="5">
+       +48
+       </option>
+       <option value="7">
        +49
        </option>
-       <option value="+48">
-        +48
-       </option>
-       <option value="+76">
-        +76
-       </option>
-         </select>
-         </div>
-        <div class="form-inline">
-       <input class="form-control" id="phoneNumber" name="phoneNumber" type="text"  />
-       </div>
+      
+      </select>
+      </div>
+      <div  style="float: left; ">
+      <input class="form-control" id="phoneNumber" name="phoneNumber" type="text"/>
+      </div>
      </div>
      <div class="form-group">
       <label class="control-label requiredField" for="address">
